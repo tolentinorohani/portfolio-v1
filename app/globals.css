@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+/* ── Typography ─────────────────────────────────────────────────────────────── */
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+}
+
+@keyframes skill-appear {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.skill-card {
+  animation: skill-appear 0.4s ease-out both;
+  animation-delay: var(--appear-delay, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-card {
+    animation: none;
+  }
+}
+
+@keyframes ring-spin-cw {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes ring-spin-ccw {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+.ring-spin-cw {
+  animation: ring-spin-cw 20s linear infinite;
+  transform-origin: center;
+}
+
+.ring-spin-ccw {
+  animation: ring-spin-ccw 15s linear infinite;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring-spin-cw,
+  .ring-spin-ccw {
+    animation: none;
+  }
+}
+
+/* ── Shimmer border ──────────────────────────────────────────────────────────── */
+@property --shimmer-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes shimmer-border-rotate {
+  to { --shimmer-angle: 360deg; }
+}
+
+/* Skill card: shimmer border appears on hover */
+.skill-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--shimmer-angle),
+    transparent 15%,
+    var(--tier-glow, rgba(167, 139, 250, 0.9)) 35%,
+    rgba(255, 255, 255, 0.95) 47%,
+    var(--tier-glow, rgba(167, 139, 250, 0.9)) 58%,
+    transparent 75%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: destination-out;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.skill-card:hover::after,
+.skill-card:focus-visible::after {
+  opacity: 1;
+  animation: shimmer-border-rotate 2s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-card:hover::after,
+  .skill-card:focus-visible::after {
+    animation: none;
+  }
+}
+
+/* Contact send button: shimmer border always active when this class is applied */
+.shimmer-border-active::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--shimmer-angle),
+    transparent 15%,
+    rgba(139, 92, 246, 0.9) 35%,
+    rgba(255, 255, 255, 0.95) 47%,
+    rgba(59, 130, 246, 0.9) 58%,
+    transparent 75%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: destination-out;
+  pointer-events: none;
+  animation: shimmer-border-rotate 1.5s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmer-border-active::after {
+    animation: none;
+  }
+}
+
+/* Card stack position transitions — CSS handles layout, motion handles opacity */
+.card-stack-item {
+  transition: top 500ms cubic-bezier(0.4, 0, 0.2, 1),
+              left 500ms cubic-bezier(0.4, 0, 0.2, 1),
+              right 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-stack-item {
+    transition: none;
+  }
+}
+
