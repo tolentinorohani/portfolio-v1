@@ -127,9 +127,14 @@ export function Hero() {
 
       <div className="flex gap-3">
         <Button href='#contact'>Hire Me</Button>
-        <button disabled className="px-5 py-2.5 rounded-lg font-medium text-sm inline-flex items-center justify-center border-2 border-violet-300/20 text-violet-300/35 cursor-not-allowed select-none">
+        <a
+          href="./data/resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-5 py-2.5 rounded-lg font-medium text-sm inline-flex items-center justify-center border-2 border-violet-300 text-violet-300 hover:bg-violet-300 hover:text-violet-950 transition-all duration-200"
+        >
           View CV
-        </button>
+        </a>
       </div>
     </section>
   );
