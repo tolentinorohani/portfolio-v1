@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
+import { BackToTop } from "@/components/BackToTop";
 import { About } from "@/components/About";
 import { Skills } from "@/components/Skills";
 import { Certificates } from "@/components/Certificates";
@@ -10,7 +11,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="flex flex-col">
+      <main id="main-content" className="flex flex-col">
         <Hero />
         <About />
         <Skills />
@@ -18,6 +19,7 @@ export default function Home() {
         <Projects />
         <Contact />
       </main>
+      <BackToTop />
     </>
   )
 }

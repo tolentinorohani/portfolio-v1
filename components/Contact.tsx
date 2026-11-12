@@ -6,6 +6,7 @@ import { SectionHeading } from './SectionHeading';
 export function Contact() {
   const [form, setForm]   = useState({ name: '', email: '', message: '' });
   const [copied, setCopied] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const isComplete = form.name.trim().length > 0
     && form.email.trim().length > 0
@@ -13,6 +14,14 @@ export function Contact() {
 
   function handleSubmit(e: { preventDefault(): void }) {
     e.preventDefault();
+    if (!isComplete) return;
+    const subject = encodeURIComponent(`Portfolio inquiry from ${form.name.trim()}`);
+    const body = encodeURIComponent(
+      `Name: ${form.name.trim()}\nEmail: ${form.email.trim()}\n\n${form.message.trim()}`
+    );
+    window.location.href = `mailto:tolentinorohani@gmail.com?subject=${subject}&body=${body}`;
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 4000);
   }
 
   async function copyEmail() {
@@ -124,8 +133,13 @@ export function Contact() {
                   : 'bg-gray-800/50 text-gray-600 border border-gray-700/50 cursor-not-allowed',
               ].join(' ')}
             >
-              Send Message
+              {submitted ? 'Opening your email app…' : 'Send Message'}
             </button>
+            {submitted && (
+              <p className="text-xs text-emerald-400 text-center" role="status">
+                Your email client should open with the message pre-filled.
+              </p>
+            )}
 
           </form>
         </div>
